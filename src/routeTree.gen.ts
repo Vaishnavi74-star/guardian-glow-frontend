@@ -9,38 +9,305 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyOtpRouteImport } from './routes/verify-otp'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
+import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellScanWhatsappRouteImport } from './routes/_shell.scan.whatsapp'
+import { Route as ShellScanUrlRouteImport } from './routes/_shell.scan.url'
+import { Route as ShellScanScreenshotRouteImport } from './routes/_shell.scan.screenshot'
+import { Route as ShellScanQrRouteImport } from './routes/_shell.scan.qr'
+import { Route as ShellScanEmailRouteImport } from './routes/_shell.scan.email'
 
+const VerifyOtpRoute = VerifyOtpRouteImport.update({
+  id: '/verify-otp',
+  path: '/verify-otp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellProfileRoute = ShellProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellHistoryRoute = ShellHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDashboardRoute = ShellDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanWhatsappRoute = ShellScanWhatsappRouteImport.update({
+  id: '/scan/whatsapp',
+  path: '/scan/whatsapp',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanUrlRoute = ShellScanUrlRouteImport.update({
+  id: '/scan/url',
+  path: '/scan/url',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanScreenshotRoute = ShellScanScreenshotRouteImport.update({
+  id: '/scan/screenshot',
+  path: '/scan/screenshot',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanQrRoute = ShellScanQrRouteImport.update({
+  id: '/scan/qr',
+  path: '/scan/qr',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanEmailRoute = ShellScanEmailRouteImport.update({
+  id: '/scan/email',
+  path: '/scan/email',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/verify-otp': typeof VerifyOtpRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/history': typeof ShellHistoryRoute
+  '/profile': typeof ShellProfileRoute
+  '/settings': typeof ShellSettingsRoute
+  '/scan/email': typeof ShellScanEmailRoute
+  '/scan/qr': typeof ShellScanQrRoute
+  '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/url': typeof ShellScanUrlRoute
+  '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/verify-otp': typeof VerifyOtpRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/history': typeof ShellHistoryRoute
+  '/profile': typeof ShellProfileRoute
+  '/settings': typeof ShellSettingsRoute
+  '/scan/email': typeof ShellScanEmailRoute
+  '/scan/qr': typeof ShellScanQrRoute
+  '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/url': typeof ShellScanUrlRoute
+  '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_shell': typeof ShellRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/verify-otp': typeof VerifyOtpRoute
+  '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/history': typeof ShellHistoryRoute
+  '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/scan/email': typeof ShellScanEmailRoute
+  '/_shell/scan/qr': typeof ShellScanQrRoute
+  '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/_shell/scan/url': typeof ShellScanUrlRoute
+  '/_shell/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/verify-otp'
+    | '/dashboard'
+    | '/history'
+    | '/profile'
+    | '/settings'
+    | '/scan/email'
+    | '/scan/qr'
+    | '/scan/screenshot'
+    | '/scan/url'
+    | '/scan/whatsapp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/verify-otp'
+    | '/dashboard'
+    | '/history'
+    | '/profile'
+    | '/settings'
+    | '/scan/email'
+    | '/scan/qr'
+    | '/scan/screenshot'
+    | '/scan/url'
+    | '/scan/whatsapp'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/about'
+    | '/contact'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/verify-otp'
+    | '/_shell/dashboard'
+    | '/_shell/history'
+    | '/_shell/profile'
+    | '/_shell/settings'
+    | '/_shell/scan/email'
+    | '/_shell/scan/qr'
+    | '/_shell/scan/screenshot'
+    | '/_shell/scan/url'
+    | '/_shell/scan/whatsapp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ShellRoute: typeof ShellRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  VerifyOtpRoute: typeof VerifyOtpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-otp': {
+      id: '/verify-otp'
+      path: '/verify-otp'
+      fullPath: '/verify-otp'
+      preLoaderRoute: typeof VerifyOtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_shell': {
+      id: '/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +315,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/profile': {
+      id: '/_shell/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ShellProfileRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/history': {
+      id: '/_shell/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof ShellHistoryRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/dashboard': {
+      id: '/_shell/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/whatsapp': {
+      id: '/_shell/scan/whatsapp'
+      path: '/scan/whatsapp'
+      fullPath: '/scan/whatsapp'
+      preLoaderRoute: typeof ShellScanWhatsappRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/url': {
+      id: '/_shell/scan/url'
+      path: '/scan/url'
+      fullPath: '/scan/url'
+      preLoaderRoute: typeof ShellScanUrlRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/screenshot': {
+      id: '/_shell/scan/screenshot'
+      path: '/scan/screenshot'
+      fullPath: '/scan/screenshot'
+      preLoaderRoute: typeof ShellScanScreenshotRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/qr': {
+      id: '/_shell/scan/qr'
+      path: '/scan/qr'
+      fullPath: '/scan/qr'
+      preLoaderRoute: typeof ShellScanQrRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/email': {
+      id: '/_shell/scan/email'
+      path: '/scan/email'
+      fullPath: '/scan/email'
+      preLoaderRoute: typeof ShellScanEmailRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
+interface ShellRouteChildren {
+  ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellHistoryRoute: typeof ShellHistoryRoute
+  ShellProfileRoute: typeof ShellProfileRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellScanEmailRoute: typeof ShellScanEmailRoute
+  ShellScanQrRoute: typeof ShellScanQrRoute
+  ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
+  ShellScanUrlRoute: typeof ShellScanUrlRoute
+  ShellScanWhatsappRoute: typeof ShellScanWhatsappRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellDashboardRoute: ShellDashboardRoute,
+  ShellHistoryRoute: ShellHistoryRoute,
+  ShellProfileRoute: ShellProfileRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
+  ShellScanEmailRoute: ShellScanEmailRoute,
+  ShellScanQrRoute: ShellScanQrRoute,
+  ShellScanScreenshotRoute: ShellScanScreenshotRoute,
+  ShellScanUrlRoute: ShellScanUrlRoute,
+  ShellScanWhatsappRoute: ShellScanWhatsappRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ShellRoute: ShellRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  VerifyOtpRoute: VerifyOtpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
