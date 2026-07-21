@@ -17,6 +17,11 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellScanWhatsappRouteImport } from './routes/_shell.scan.whatsapp'
+import { Route as ShellScanUrlRouteImport } from './routes/_shell.scan.url'
+import { Route as ShellScanScreenshotRouteImport } from './routes/_shell.scan.screenshot'
+import { Route as ShellScanQrRouteImport } from './routes/_shell.scan.qr'
+import { Route as ShellScanEmailRouteImport } from './routes/_shell.scan.email'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -57,6 +62,31 @@ const ShellDashboardRoute = ShellDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellScanWhatsappRoute = ShellScanWhatsappRouteImport.update({
+  id: '/scan/whatsapp',
+  path: '/scan/whatsapp',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanUrlRoute = ShellScanUrlRouteImport.update({
+  id: '/scan/url',
+  path: '/scan/url',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanScreenshotRoute = ShellScanScreenshotRouteImport.update({
+  id: '/scan/screenshot',
+  path: '/scan/screenshot',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanQrRoute = ShellScanQrRouteImport.update({
+  id: '/scan/qr',
+  path: '/scan/qr',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanEmailRoute = ShellScanEmailRouteImport.update({
+  id: '/scan/email',
+  path: '/scan/email',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +96,11 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/scan/email': typeof ShellScanEmailRoute
+  '/scan/qr': typeof ShellScanQrRoute
+  '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/url': typeof ShellScanUrlRoute
+  '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +110,11 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/scan/email': typeof ShellScanEmailRoute
+  '/scan/qr': typeof ShellScanQrRoute
+  '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/url': typeof ShellScanUrlRoute
+  '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +126,11 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/scan/email': typeof ShellScanEmailRoute
+  '/_shell/scan/qr': typeof ShellScanQrRoute
+  '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/_shell/scan/url': typeof ShellScanUrlRoute
+  '/_shell/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +142,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/dashboard'
+    | '/scan/email'
+    | '/scan/qr'
+    | '/scan/screenshot'
+    | '/scan/url'
+    | '/scan/whatsapp'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +156,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/dashboard'
+    | '/scan/email'
+    | '/scan/qr'
+    | '/scan/screenshot'
+    | '/scan/url'
+    | '/scan/whatsapp'
   id:
     | '__root__'
     | '/'
@@ -116,6 +171,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/_shell/dashboard'
+    | '/_shell/scan/email'
+    | '/_shell/scan/qr'
+    | '/_shell/scan/screenshot'
+    | '/_shell/scan/url'
+    | '/_shell/scan/whatsapp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,15 +246,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellDashboardRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/scan/whatsapp': {
+      id: '/_shell/scan/whatsapp'
+      path: '/scan/whatsapp'
+      fullPath: '/scan/whatsapp'
+      preLoaderRoute: typeof ShellScanWhatsappRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/url': {
+      id: '/_shell/scan/url'
+      path: '/scan/url'
+      fullPath: '/scan/url'
+      preLoaderRoute: typeof ShellScanUrlRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/screenshot': {
+      id: '/_shell/scan/screenshot'
+      path: '/scan/screenshot'
+      fullPath: '/scan/screenshot'
+      preLoaderRoute: typeof ShellScanScreenshotRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/qr': {
+      id: '/_shell/scan/qr'
+      path: '/scan/qr'
+      fullPath: '/scan/qr'
+      preLoaderRoute: typeof ShellScanQrRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/email': {
+      id: '/_shell/scan/email'
+      path: '/scan/email'
+      fullPath: '/scan/email'
+      preLoaderRoute: typeof ShellScanEmailRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
 interface ShellRouteChildren {
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellScanEmailRoute: typeof ShellScanEmailRoute
+  ShellScanQrRoute: typeof ShellScanQrRoute
+  ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
+  ShellScanUrlRoute: typeof ShellScanUrlRoute
+  ShellScanWhatsappRoute: typeof ShellScanWhatsappRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellScanEmailRoute: ShellScanEmailRoute,
+  ShellScanQrRoute: ShellScanQrRoute,
+  ShellScanScreenshotRoute: ShellScanScreenshotRoute,
+  ShellScanUrlRoute: ShellScanUrlRoute,
+  ShellScanWhatsappRoute: ShellScanWhatsappRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
