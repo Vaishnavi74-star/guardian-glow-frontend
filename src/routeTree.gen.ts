@@ -16,6 +16,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellScanWhatsappRouteImport } from './routes/_shell.scan.whatsapp'
 import { Route as ShellScanUrlRouteImport } from './routes/_shell.scan.url'
@@ -57,6 +60,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellProfileRoute = ShellProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellHistoryRoute = ShellHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -96,6 +114,9 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/history': typeof ShellHistoryRoute
+  '/profile': typeof ShellProfileRoute
+  '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -110,6 +131,9 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/history': typeof ShellHistoryRoute
+  '/profile': typeof ShellProfileRoute
+  '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -126,6 +150,9 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/history': typeof ShellHistoryRoute
+  '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
   '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -142,6 +169,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/dashboard'
+    | '/history'
+    | '/profile'
+    | '/settings'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -156,6 +186,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/dashboard'
+    | '/history'
+    | '/profile'
+    | '/settings'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -171,6 +204,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/_shell/dashboard'
+    | '/_shell/history'
+    | '/_shell/profile'
+    | '/_shell/settings'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
     | '/_shell/scan/screenshot'
@@ -239,6 +275,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/profile': {
+      id: '/_shell/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ShellProfileRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/history': {
+      id: '/_shell/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof ShellHistoryRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
@@ -286,6 +343,9 @@ declare module '@tanstack/react-router' {
 
 interface ShellRouteChildren {
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellHistoryRoute: typeof ShellHistoryRoute
+  ShellProfileRoute: typeof ShellProfileRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
   ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
@@ -295,6 +355,9 @@ interface ShellRouteChildren {
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellHistoryRoute: ShellHistoryRoute,
+  ShellProfileRoute: ShellProfileRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
   ShellScanScreenshotRoute: ShellScanScreenshotRoute,
