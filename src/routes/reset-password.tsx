@@ -1,0 +1,32 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { AuthLayout } from "@/components/scam/AuthLayout";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
+
+export const Route = createFileRoute("/reset-password")({ component: ResetPage });
+
+function ResetPage() {
+  const nav = useNavigate();
+  return (
+    <AuthLayout
+      title="Set a new password"
+      subtitle="Choose a strong password you haven't used before."
+      footer={<><Link to="/login" className="font-semibold text-accent hover:underline">Back to sign in</Link></>}
+    >
+      <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); nav({ to: "/login" }); }}>
+        {["New password", "Confirm password"].map((lbl) => (
+          <div className="space-y-2" key={lbl}>
+            <Label>{lbl}</Label>
+            <div className="relative">
+              <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input required type="password" placeholder="••••••••" className="border-white/10 bg-white/5 pl-10 h-11" />
+            </div>
+          </div>
+        ))}
+        <Button className="h-11 w-full gradient-primary text-white glow-primary">Reset password</Button>
+      </form>
+    </AuthLayout>
+  );
+}
