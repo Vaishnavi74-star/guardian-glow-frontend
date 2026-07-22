@@ -113,6 +113,13 @@ export function ResultView({ result }: { result: ScanResult }) {
         <div className={`mt-6 flex items-center gap-2 rounded-full border px-3 py-1 text-sm ${meta.bg} ${meta.color}`}>
           <Icon className="h-4 w-4" /> Threat level: {meta.label}
         </div>
+        <Button
+          onClick={() => downloadReport(result)}
+          variant="outline"
+          className="mt-6 w-full border-white/10 bg-white/5 hover:bg-white/10"
+        >
+          <Download className="mr-2 h-4 w-4" /> Download PDF report
+        </Button>
       </GlassCard>
 
       <GlassCard className="lg:col-span-2">
