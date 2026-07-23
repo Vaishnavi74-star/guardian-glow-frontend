@@ -21,9 +21,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
 import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
+import { Route as ShellExtensionRouteImport } from './routes/_shell.extension'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellCommunityRouteImport } from './routes/_shell.community'
+import { Route as ShellBulkRouteImport } from './routes/_shell.bulk'
+import { Route as ShellApiKeysRouteImport } from './routes/_shell.api-keys'
+import { Route as ShellAchievementsRouteImport } from './routes/_shell.achievements'
 import { Route as ShellScanWhatsappRouteImport } from './routes/_shell.scan.whatsapp'
 import { Route as ShellScanUrlRouteImport } from './routes/_shell.scan.url'
+import { Route as ShellScanSmsRouteImport } from './routes/_shell.scan.sms'
 import { Route as ShellScanScreenshotRouteImport } from './routes/_shell.scan.screenshot'
 import { Route as ShellScanQrRouteImport } from './routes/_shell.scan.qr'
 import { Route as ShellScanEmailRouteImport } from './routes/_shell.scan.email'
@@ -87,9 +93,34 @@ const ShellHistoryRoute = ShellHistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellExtensionRoute = ShellExtensionRouteImport.update({
+  id: '/extension',
+  path: '/extension',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellCommunityRoute = ShellCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellBulkRoute = ShellBulkRouteImport.update({
+  id: '/bulk',
+  path: '/bulk',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellApiKeysRoute = ShellApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellAchievementsRoute = ShellAchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellScanWhatsappRoute = ShellScanWhatsappRouteImport.update({
@@ -100,6 +131,11 @@ const ShellScanWhatsappRoute = ShellScanWhatsappRouteImport.update({
 const ShellScanUrlRoute = ShellScanUrlRouteImport.update({
   id: '/scan/url',
   path: '/scan/url',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScanSmsRoute = ShellScanSmsRouteImport.update({
+  id: '/scan/sms',
+  path: '/scan/sms',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellScanScreenshotRoute = ShellScanScreenshotRouteImport.update({
@@ -127,13 +163,19 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/achievements': typeof ShellAchievementsRoute
+  '/api-keys': typeof ShellApiKeysRoute
+  '/bulk': typeof ShellBulkRoute
+  '/community': typeof ShellCommunityRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/extension': typeof ShellExtensionRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
   '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/sms': typeof ShellScanSmsRoute
   '/scan/url': typeof ShellScanUrlRoute
   '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
@@ -146,13 +188,19 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/achievements': typeof ShellAchievementsRoute
+  '/api-keys': typeof ShellApiKeysRoute
+  '/bulk': typeof ShellBulkRoute
+  '/community': typeof ShellCommunityRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/extension': typeof ShellExtensionRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
   '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/scan/sms': typeof ShellScanSmsRoute
   '/scan/url': typeof ShellScanUrlRoute
   '/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
@@ -167,13 +215,19 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
+  '/_shell/achievements': typeof ShellAchievementsRoute
+  '/_shell/api-keys': typeof ShellApiKeysRoute
+  '/_shell/bulk': typeof ShellBulkRoute
+  '/_shell/community': typeof ShellCommunityRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/extension': typeof ShellExtensionRoute
   '/_shell/history': typeof ShellHistoryRoute
   '/_shell/profile': typeof ShellProfileRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
   '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
+  '/_shell/scan/sms': typeof ShellScanSmsRoute
   '/_shell/scan/url': typeof ShellScanUrlRoute
   '/_shell/scan/whatsapp': typeof ShellScanWhatsappRoute
 }
@@ -188,13 +242,19 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/achievements'
+    | '/api-keys'
+    | '/bulk'
+    | '/community'
     | '/dashboard'
+    | '/extension'
     | '/history'
     | '/profile'
     | '/settings'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
+    | '/scan/sms'
     | '/scan/url'
     | '/scan/whatsapp'
   fileRoutesByTo: FileRoutesByTo
@@ -207,13 +267,19 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/achievements'
+    | '/api-keys'
+    | '/bulk'
+    | '/community'
     | '/dashboard'
+    | '/extension'
     | '/history'
     | '/profile'
     | '/settings'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
+    | '/scan/sms'
     | '/scan/url'
     | '/scan/whatsapp'
   id:
@@ -227,13 +293,19 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-otp'
+    | '/_shell/achievements'
+    | '/_shell/api-keys'
+    | '/_shell/bulk'
+    | '/_shell/community'
     | '/_shell/dashboard'
+    | '/_shell/extension'
     | '/_shell/history'
     | '/_shell/profile'
     | '/_shell/settings'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
     | '/_shell/scan/screenshot'
+    | '/_shell/scan/sms'
     | '/_shell/scan/url'
     | '/_shell/scan/whatsapp'
   fileRoutesById: FileRoutesById
@@ -336,11 +408,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellHistoryRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/extension': {
+      id: '/_shell/extension'
+      path: '/extension'
+      fullPath: '/extension'
+      preLoaderRoute: typeof ShellExtensionRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/community': {
+      id: '/_shell/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof ShellCommunityRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/bulk': {
+      id: '/_shell/bulk'
+      path: '/bulk'
+      fullPath: '/bulk'
+      preLoaderRoute: typeof ShellBulkRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/api-keys': {
+      id: '/_shell/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof ShellApiKeysRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/achievements': {
+      id: '/_shell/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof ShellAchievementsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/scan/whatsapp': {
@@ -355,6 +462,13 @@ declare module '@tanstack/react-router' {
       path: '/scan/url'
       fullPath: '/scan/url'
       preLoaderRoute: typeof ShellScanUrlRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/scan/sms': {
+      id: '/_shell/scan/sms'
+      path: '/scan/sms'
+      fullPath: '/scan/sms'
+      preLoaderRoute: typeof ShellScanSmsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/scan/screenshot': {
@@ -382,25 +496,37 @@ declare module '@tanstack/react-router' {
 }
 
 interface ShellRouteChildren {
+  ShellAchievementsRoute: typeof ShellAchievementsRoute
+  ShellApiKeysRoute: typeof ShellApiKeysRoute
+  ShellBulkRoute: typeof ShellBulkRoute
+  ShellCommunityRoute: typeof ShellCommunityRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellExtensionRoute: typeof ShellExtensionRoute
   ShellHistoryRoute: typeof ShellHistoryRoute
   ShellProfileRoute: typeof ShellProfileRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
   ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
+  ShellScanSmsRoute: typeof ShellScanSmsRoute
   ShellScanUrlRoute: typeof ShellScanUrlRoute
   ShellScanWhatsappRoute: typeof ShellScanWhatsappRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
+  ShellAchievementsRoute: ShellAchievementsRoute,
+  ShellApiKeysRoute: ShellApiKeysRoute,
+  ShellBulkRoute: ShellBulkRoute,
+  ShellCommunityRoute: ShellCommunityRoute,
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellExtensionRoute: ShellExtensionRoute,
   ShellHistoryRoute: ShellHistoryRoute,
   ShellProfileRoute: ShellProfileRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
   ShellScanScreenshotRoute: ShellScanScreenshotRoute,
+  ShellScanSmsRoute: ShellScanSmsRoute,
   ShellScanUrlRoute: ShellScanUrlRoute,
   ShellScanWhatsappRoute: ShellScanWhatsappRoute,
 }
@@ -421,13 +547,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
