@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   LayoutDashboard, Link2, Mail, MessageSquare, QrCode, Image as ImageIcon,
   History, User, Settings, LogOut, Menu, X, Search, ShieldCheck,
-  Layers, Radio, Puzzle, KeyRound, Trophy, PhoneCall, Command,
+  Layers, Radio, Puzzle, KeyRound, Trophy, PhoneCall, Command, ShieldAlert,
 } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "@/components/scam/Logo";
@@ -23,6 +23,7 @@ const NAV_GROUPS = [
     label: "Overview",
     items: [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/alerts",    label: "Alerts",    icon: ShieldAlert },
     ],
   },
   {
