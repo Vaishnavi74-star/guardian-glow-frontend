@@ -199,6 +199,17 @@ export function mockAnalyze(target: string): ScanResult {
     bare.slice(0, 2).forEach((b) => analyzeUrl(`http://${b}`, signals));
   }
 
+  // UPI / non-http schemes (common in QR scams)
+  const upi = text.match(/upi:\/\/pay\?[^\s]+/i);
+  if (upi) {
+    const params = new URLSearchParams(upi[0].split("?")[1] ?? "");
+    const pa = params.get("pa") ?? "";
+    const am = Number(params.get("am") ?? "0");
+    signals.push({ points: 15, finding: `QR contains a UPI payment request to "${pa || "unknown VPA"}".`, recommendation: "Never approve UPI collect requests from unknown VPAs." });
+    if (am >= 1000) signals.push({ points: 15, finding: `Requests a large amount (₹${am}).` });
+    if (/fraud|scam|test|xxx|abc\d+/i.test(pa)) signals.push({ points: 30, finding: `VPA "${pa}" matches known fraudulent pattern.` });
+  }
+
   // Emails
   const emails = text.match(EMAIL_RE) ?? [];
   emails.forEach((e) => analyzeEmailAddress(e, signals));
