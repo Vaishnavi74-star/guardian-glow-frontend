@@ -26,6 +26,7 @@ import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellCommunityRouteImport } from './routes/_shell.community'
 import { Route as ShellBulkRouteImport } from './routes/_shell.bulk'
 import { Route as ShellApiKeysRouteImport } from './routes/_shell.api-keys'
+import { Route as ShellAlertsRouteImport } from './routes/_shell.alerts'
 import { Route as ShellAchievementsRouteImport } from './routes/_shell.achievements'
 import { Route as ShellScanWhatsappRouteImport } from './routes/_shell.scan.whatsapp'
 import { Route as ShellScanUrlRouteImport } from './routes/_shell.scan.url'
@@ -118,6 +119,11 @@ const ShellApiKeysRoute = ShellApiKeysRouteImport.update({
   path: '/api-keys',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellAlertsRoute = ShellAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellAchievementsRoute = ShellAchievementsRouteImport.update({
   id: '/achievements',
   path: '/achievements',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/achievements': typeof ShellAchievementsRoute
+  '/alerts': typeof ShellAlertsRoute
   '/api-keys': typeof ShellApiKeysRoute
   '/bulk': typeof ShellBulkRoute
   '/community': typeof ShellCommunityRoute
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/achievements': typeof ShellAchievementsRoute
+  '/alerts': typeof ShellAlertsRoute
   '/api-keys': typeof ShellApiKeysRoute
   '/bulk': typeof ShellBulkRoute
   '/community': typeof ShellCommunityRoute
@@ -216,6 +224,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
   '/_shell/achievements': typeof ShellAchievementsRoute
+  '/_shell/alerts': typeof ShellAlertsRoute
   '/_shell/api-keys': typeof ShellApiKeysRoute
   '/_shell/bulk': typeof ShellBulkRoute
   '/_shell/community': typeof ShellCommunityRoute
@@ -243,6 +252,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/achievements'
+    | '/alerts'
     | '/api-keys'
     | '/bulk'
     | '/community'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/achievements'
+    | '/alerts'
     | '/api-keys'
     | '/bulk'
     | '/community'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-otp'
     | '/_shell/achievements'
+    | '/_shell/alerts'
     | '/_shell/api-keys'
     | '/_shell/bulk'
     | '/_shell/community'
@@ -443,6 +455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellApiKeysRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/alerts': {
+      id: '/_shell/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof ShellAlertsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/achievements': {
       id: '/_shell/achievements'
       path: '/achievements'
@@ -497,6 +516,7 @@ declare module '@tanstack/react-router' {
 
 interface ShellRouteChildren {
   ShellAchievementsRoute: typeof ShellAchievementsRoute
+  ShellAlertsRoute: typeof ShellAlertsRoute
   ShellApiKeysRoute: typeof ShellApiKeysRoute
   ShellBulkRoute: typeof ShellBulkRoute
   ShellCommunityRoute: typeof ShellCommunityRoute
@@ -515,6 +535,7 @@ interface ShellRouteChildren {
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAchievementsRoute: ShellAchievementsRoute,
+  ShellAlertsRoute: ShellAlertsRoute,
   ShellApiKeysRoute: ShellApiKeysRoute,
   ShellBulkRoute: ShellBulkRoute,
   ShellCommunityRoute: ShellCommunityRoute,
@@ -547,13 +568,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
