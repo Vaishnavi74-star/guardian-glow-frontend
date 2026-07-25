@@ -87,17 +87,198 @@ export interface ScanResult {
   extras?: ReactNode;
 }
 
+// ---------- Deterministic content-aware analyzer ----------
+
+interface Signal {
+  points: number;
+  finding: string;
+  recommendation?: string;
+}
+
+const SAFE_DOMAINS = [
+  "github.com", "google.com", "microsoft.com", "apple.com", "amazon.com",
+  "wikipedia.org", "stripe.com", "vercel.com", "cloudflare.com", "openai.com",
+  "dropbox.com", "linkedin.com", "youtube.com", "netflix.com", "paypal.com",
+  "hdfcbank.com", "icicibank.com", "sbi.co.in",
+];
+
+const BRAND_TOKENS = ["paypal", "amazon", "amaz0n", "paypa1", "hdfc", "icici", "sbi", "netflix", "apple", "microsoft", "google", "facebook", "instagram", "whatsapp"];
+const SHORTENERS = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "ow.ly", "is.gd", "rebrand.ly", "cutt.ly", "shorturl.at"];
+const SUSPICIOUS_TLDS = [".zip", ".mov", ".top", ".xyz", ".click", ".win", ".loan", ".work", ".gq", ".tk", ".ml", ".cf", ".country", ".fit"];
+const SCAM_PHRASES = [
+  "verify your account", "verify kyc", "kyc pending", "kyc update",
+  "urgent action", "urgent action required", "account suspended", "account will be suspended",
+  "account has been suspended", "temporarily suspended", "click here", "click the link",
+  "you have won", "congratulations", "gift card", "free crypto", "claim your prize",
+  "limited time offer", "act now", "final notice", "verify immediately",
+  "refund initiated", "refund of", "customs fee", "delivery pending", "package on hold",
+  "otp", "share otp", "one-time password", "your pin", "share your pin",
+  "bank account will be", "reactivate your account", "unusual activity",
+];
+const IP_URL_RE = /https?:\/\/\d{1,3}(\.\d{1,3}){3}/i;
+const URL_RE = /https?:\/\/[^\s"'<>)]+/gi;
+const EMAIL_RE = /\b[\w.+-]+@[\w-]+\.[\w.-]+\b/g;
+
+function extractHostname(u: string): string | null {
+  try {
+    const url = new URL(u.startsWith("http") ? u : `http://${u}`);
+    return url.hostname.toLowerCase();
+  } catch { return null; }
+}
+
+function analyzeUrl(raw: string, signals: Signal[]) {
+  const host = extractHostname(raw);
+  if (!host) return;
+  const isSafeDomain = SAFE_DOMAINS.some((d) => host === d || host.endsWith(`.${d}`));
+
+  if (isSafeDomain) {
+    signals.push({ points: -25, finding: `Domain ${host} is a well-known, reputable service.` });
+  }
+  if (IP_URL_RE.test(raw)) {
+    signals.push({ points: 30, finding: "URL uses a raw IP address instead of a domain name.", recommendation: "Never enter credentials on raw-IP URLs." });
+  }
+  if (SHORTENERS.some((s) => host === s || host.endsWith(`.${s}`))) {
+    signals.push({ points: 25, finding: `Link uses URL shortener (${host}) that hides the real destination.`, recommendation: "Expand shortened URLs before opening them." });
+  }
+  if (!isSafeDomain && SUSPICIOUS_TLDS.some((t) => host.endsWith(t))) {
+    const tld = SUSPICIOUS_TLDS.find((t) => host.endsWith(t))!;
+    signals.push({ points: 20, finding: `Domain uses low-reputation TLD (${tld}).` });
+  }
+  if (!isSafeDomain) {
+    const brand = BRAND_TOKENS.find((b) => host.includes(b));
+    const looksLikeTypo = brand && !SAFE_DOMAINS.some((d) => d.includes(brand!));
+    if (looksLikeTypo) {
+      signals.push({ points: 35, finding: `Domain impersonates a known brand ("${brand}") — likely typosquatting.`, recommendation: "Do NOT enter credentials — report as phishing." });
+    }
+    if (/[0-9]/.test(host.split(".")[0]) && /[a-z]/.test(host.split(".")[0]) && host.split(".")[0].length > 4) {
+      signals.push({ points: 10, finding: "Subdomain mixes letters and digits — common phishing pattern." });
+    }
+    if ((host.match(/-/g)?.length ?? 0) >= 2) {
+      signals.push({ points: 10, finding: "Domain contains multiple hyphens — often used to mimic real brands." });
+    }
+    if (host.split(".").length >= 4) {
+      signals.push({ points: 8, finding: "Deeply nested subdomain — legitimate services rarely need this." });
+    }
+  }
+  if (!raw.startsWith("https://") && raw.startsWith("http://")) {
+    signals.push({ points: 12, finding: "Uses plain HTTP — traffic is not encrypted." });
+  }
+}
+
+function analyzeEmailAddress(addr: string, signals: Signal[]) {
+  const [, domain] = addr.toLowerCase().split("@");
+  if (!domain) return;
+  const isSafeDomain = SAFE_DOMAINS.some((d) => domain === d || domain.endsWith(`.${d}`));
+  if (isSafeDomain) {
+    signals.push({ points: -15, finding: `Sender domain ${domain} matches a legitimate service.` });
+    return;
+  }
+  const brand = BRAND_TOKENS.find((b) => domain.includes(b));
+  if (brand && !SAFE_DOMAINS.some((d) => d.includes(brand!))) {
+    signals.push({ points: 30, finding: `Sender domain ${domain} mimics "${brand}" — likely spoofed.` });
+  }
+  if (SUSPICIOUS_TLDS.some((t) => domain.endsWith(t))) {
+    signals.push({ points: 15, finding: `Sender uses low-reputation TLD (${domain}).` });
+  }
+  if ((domain.match(/-/g)?.length ?? 0) >= 2) {
+    signals.push({ points: 8, finding: "Sender domain contains multiple hyphens." });
+  }
+}
+
 export function mockAnalyze(target: string): ScanResult {
-  const base = mockUrlAnalysis(target);
-  return {
-    ...base,
-    aiSummary:
-      base.score > 60
-        ? "Our AI classifier flags this as highly likely to be a phishing / scam attempt. Multiple red flags detected across language, structure, and reputation signals."
-        : base.score > 30
-        ? "Some suspicious signals detected, but not conclusive. Proceed with caution and verify the source through an independent channel."
-        : "No meaningful threat signals detected. Content appears legitimate based on current threat intelligence.",
-  };
+  const signals: Signal[] = [];
+  const text = target;
+  const lower = text.toLowerCase();
+
+  // URLs
+  const urls = text.match(URL_RE) ?? [];
+  urls.forEach((u) => analyzeUrl(u, signals));
+  // bare-domain heuristic if no full URL
+  if (urls.length === 0) {
+    const bare = text.match(/\b([a-z0-9-]+\.)+[a-z]{2,}\b/gi) ?? [];
+    bare.slice(0, 2).forEach((b) => analyzeUrl(`http://${b}`, signals));
+  }
+
+  // Emails
+  const emails = text.match(EMAIL_RE) ?? [];
+  emails.forEach((e) => analyzeEmailAddress(e, signals));
+
+  // Scam phrases
+  const phraseHits = SCAM_PHRASES.filter((p) => lower.includes(p));
+  if (phraseHits.length) {
+    signals.push({
+      points: Math.min(40, 10 + phraseHits.length * 8),
+      finding: `Contains ${phraseHits.length} known scam phrase${phraseHits.length > 1 ? "s" : ""}: "${phraseHits.slice(0, 3).join('", "')}".`,
+      recommendation: "Treat urgency/reward language as a red flag.",
+    });
+  }
+
+  // Money / OTP / KYC signals
+  if (/₹|rs\.?\s?\d|inr\s?\d|\$\d|usd\s?\d/i.test(text) && /(win|won|claim|prize|reward|refund|gift)/i.test(text)) {
+    signals.push({ points: 20, finding: "Mentions money reward or refund — classic bait pattern." });
+  }
+  if (/\botp\b|one[- ]time\s+password/i.test(text)) {
+    signals.push({ points: 15, finding: "Requests an OTP — legitimate businesses never ask for OTPs.", recommendation: "Never share OTPs with anyone." });
+  }
+  if (/24\s*hours|within\s*\d+\s*(min|hour)|immediately|right now|expires today/i.test(lower)) {
+    signals.push({ points: 12, finding: "Uses time-pressure tactics to force fast action." });
+  }
+  if (/[A-Z]{6,}/.test(text) && text.length < 400) {
+    signals.push({ points: 5, finding: "Excessive uppercase — common scam formatting." });
+  }
+  if (/!{2,}/.test(text)) {
+    signals.push({ points: 4, finding: "Repeated exclamation marks indicate low-quality bulk message." });
+  }
+  if (/click (here|now|the link)/i.test(text)) {
+    signals.push({ points: 8, finding: "Generic 'click here' call-to-action instead of a named destination." });
+  }
+
+  // Score
+  const base = 8;
+  const raw = signals.reduce((s, x) => s + x.points, base);
+  const score = Math.max(3, Math.min(98, Math.round(raw)));
+  const level = scoreToLevel(score);
+
+  let findings = signals.filter((s) => s.points > 0).map((s) => s.finding);
+  const positives = signals.filter((s) => s.points < 0).map((s) => s.finding);
+  if (findings.length === 0) {
+    findings = positives.length
+      ? positives
+      : [
+          "No known scam patterns detected in the content.",
+          "No suspicious URLs, brand impersonation, or urgency triggers found.",
+          "Content structure looks consistent with legitimate communication.",
+        ];
+  }
+
+  const recs = signals.map((s) => s.recommendation).filter((r): r is string => !!r);
+  const recommendations = recs.length
+    ? Array.from(new Set(recs))
+    : score > 60
+    ? [
+        "Do not click any links or reply.",
+        "Report the message to your security team or the platform.",
+        "Delete or block the sender.",
+      ]
+    : score > 30
+    ? [
+        "Verify the sender through an independent channel before acting.",
+        "Hover over links to confirm the real destination.",
+        "When in doubt, contact the organization directly.",
+      ]
+    : [
+        "Content appears safe — continue with normal caution.",
+        "Always double-check URLs before entering credentials.",
+      ];
+
+  const aiSummary =
+    score > 60
+      ? `High-confidence scam signal. Analyzer matched ${findings.length} risk indicator${findings.length > 1 ? "s" : ""} including ${signals.filter((s) => s.points >= 20).length} strong flag${signals.filter((s) => s.points >= 20).length === 1 ? "" : "s"}. Treat this as malicious.`
+      : score > 30
+      ? `Mixed signals. Analyzer found ${findings.length} suspicious pattern${findings.length > 1 ? "s" : ""} but no definitive proof of a scam. Verify independently before trusting the content.`
+      : `No meaningful threat signals detected. ${positives.length ? "Positive reputation indicators were also found." : "Content appears legitimate."}`;
+
+  return { score, level, findings, recommendations, aiSummary };
 }
 
 export function ResultView({ result }: { result: ScanResult }) {
