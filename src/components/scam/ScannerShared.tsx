@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/scam/GlassCard";
 import { RiskGauge } from "@/components/scam/RiskGauge";
 import { Button } from "@/components/ui/button";
-import { RISK_META, mockUrlAnalysis, scoreToLevel, type RiskLevel } from "@/lib/mock-data";
+import { RISK_META, scoreToLevel, type RiskLevel } from "@/lib/mock-data";
 import { Sparkles, ShieldAlert, CheckCircle2, AlertTriangle, Download } from "lucide-react";
 import type { ReactNode } from "react";
 import { jsPDF } from "jspdf";
