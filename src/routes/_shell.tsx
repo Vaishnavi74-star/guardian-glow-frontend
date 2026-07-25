@@ -23,6 +23,7 @@ const NAV_GROUPS = [
     label: "Overview",
     items: [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/alerts",    label: "Alerts",    icon: ShieldAlert },
     ],
   },
   {
