@@ -21,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
 import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
+import { Route as ShellGalleryRouteImport } from './routes/_shell.gallery'
 import { Route as ShellExtensionRouteImport } from './routes/_shell.extension'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellCommunityRouteImport } from './routes/_shell.community'
@@ -92,6 +93,11 @@ const ShellProfileRoute = ShellProfileRouteImport.update({
 const ShellHistoryRoute = ShellHistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellGalleryRoute = ShellGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellExtensionRoute = ShellExtensionRouteImport.update({
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof ShellCommunityRoute
   '/dashboard': typeof ShellDashboardRoute
   '/extension': typeof ShellExtensionRoute
+  '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
   '/settings': typeof ShellSettingsRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/community': typeof ShellCommunityRoute
   '/dashboard': typeof ShellDashboardRoute
   '/extension': typeof ShellExtensionRoute
+  '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
   '/settings': typeof ShellSettingsRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/_shell/community': typeof ShellCommunityRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/extension': typeof ShellExtensionRoute
+  '/_shell/gallery': typeof ShellGalleryRoute
   '/_shell/history': typeof ShellHistoryRoute
   '/_shell/profile': typeof ShellProfileRoute
   '/_shell/settings': typeof ShellSettingsRoute
@@ -258,6 +267,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/dashboard'
     | '/extension'
+    | '/gallery'
     | '/history'
     | '/profile'
     | '/settings'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/dashboard'
     | '/extension'
+    | '/gallery'
     | '/history'
     | '/profile'
     | '/settings'
@@ -311,6 +322,7 @@ export interface FileRouteTypes {
     | '/_shell/community'
     | '/_shell/dashboard'
     | '/_shell/extension'
+    | '/_shell/gallery'
     | '/_shell/history'
     | '/_shell/profile'
     | '/_shell/settings'
@@ -420,6 +432,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellHistoryRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/gallery': {
+      id: '/_shell/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof ShellGalleryRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/extension': {
       id: '/_shell/extension'
       path: '/extension'
@@ -522,6 +541,7 @@ interface ShellRouteChildren {
   ShellCommunityRoute: typeof ShellCommunityRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellExtensionRoute: typeof ShellExtensionRoute
+  ShellGalleryRoute: typeof ShellGalleryRoute
   ShellHistoryRoute: typeof ShellHistoryRoute
   ShellProfileRoute: typeof ShellProfileRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
@@ -541,6 +561,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellCommunityRoute: ShellCommunityRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellExtensionRoute: ShellExtensionRoute,
+  ShellGalleryRoute: ShellGalleryRoute,
   ShellHistoryRoute: ShellHistoryRoute,
   ShellProfileRoute: ShellProfileRoute,
   ShellSettingsRoute: ShellSettingsRoute,

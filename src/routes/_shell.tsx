@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   LayoutDashboard, Link2, Mail, MessageSquare, QrCode, Image as ImageIcon,
   History, User, Settings, LogOut, Menu, X, Search, ShieldCheck,
-  Layers, Radio, Puzzle, KeyRound, Trophy, PhoneCall, Command, ShieldAlert,
+  Layers, Radio, Puzzle, KeyRound, Trophy, PhoneCall, Command, ShieldAlert, LayoutGrid,
 } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "@/components/scam/Logo";
@@ -45,6 +45,7 @@ const NAV_GROUPS = [
       { to: "/achievements", label: "Achievements", icon: Trophy },
       { to: "/extension",    label: "Extension",   icon: Puzzle },
       { to: "/api-keys",     label: "API Keys",    icon: KeyRound },
+      { to: "/gallery",      label: "Route Gallery", icon: LayoutGrid },
     ],
   },
   {
