@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_shell/reports")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Reports;
+  component: Reports,
 });
 
 const RANGES = ["7d", "30d", "90d", "12m"] as const;
