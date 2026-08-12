@@ -18,7 +18,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellThreatIntelRouteImport } from './routes/_shell.threat-intel'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
 import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
 import { Route as ShellGalleryRouteImport } from './routes/_shell.gallery'
@@ -80,9 +82,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellThreatIntelRoute = ShellThreatIntelRouteImport.update({
+  id: '/threat-intel',
+  path: '/threat-intel',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellSettingsRoute = ShellSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellReportsRoute = ShellReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellProfileRoute = ShellProfileRouteImport.update({
@@ -185,7 +197,9 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
+  '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -212,7 +226,9 @@ export interface FileRoutesByTo {
   '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
+  '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -241,7 +257,9 @@ export interface FileRoutesById {
   '/_shell/gallery': typeof ShellGalleryRoute
   '/_shell/history': typeof ShellHistoryRoute
   '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/reports': typeof ShellReportsRoute
   '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/threat-intel': typeof ShellThreatIntelRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
   '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -270,7 +288,9 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/history'
     | '/profile'
+    | '/reports'
     | '/settings'
+    | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -297,7 +317,9 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/history'
     | '/profile'
+    | '/reports'
     | '/settings'
+    | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -325,7 +347,9 @@ export interface FileRouteTypes {
     | '/_shell/gallery'
     | '/_shell/history'
     | '/_shell/profile'
+    | '/_shell/reports'
     | '/_shell/settings'
+    | '/_shell/threat-intel'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
     | '/_shell/scan/screenshot'
@@ -411,11 +435,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/threat-intel': {
+      id: '/_shell/threat-intel'
+      path: '/threat-intel'
+      fullPath: '/threat-intel'
+      preLoaderRoute: typeof ShellThreatIntelRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/settings': {
       id: '/_shell/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/reports': {
+      id: '/_shell/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ShellReportsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/profile': {
@@ -544,7 +582,9 @@ interface ShellRouteChildren {
   ShellGalleryRoute: typeof ShellGalleryRoute
   ShellHistoryRoute: typeof ShellHistoryRoute
   ShellProfileRoute: typeof ShellProfileRoute
+  ShellReportsRoute: typeof ShellReportsRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellThreatIntelRoute: typeof ShellThreatIntelRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
   ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
@@ -564,7 +604,9 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellGalleryRoute: ShellGalleryRoute,
   ShellHistoryRoute: ShellHistoryRoute,
   ShellProfileRoute: ShellProfileRoute,
+  ShellReportsRoute: ShellReportsRoute,
   ShellSettingsRoute: ShellSettingsRoute,
+  ShellThreatIntelRoute: ShellThreatIntelRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
   ShellScanScreenshotRoute: ShellScanScreenshotRoute,
@@ -589,3 +631,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
