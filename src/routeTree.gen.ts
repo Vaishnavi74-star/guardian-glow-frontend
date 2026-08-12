@@ -19,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
 import { Route as ShellHistoryRouteImport } from './routes/_shell.history'
 import { Route as ShellGalleryRouteImport } from './routes/_shell.gallery'
@@ -83,6 +84,11 @@ const IndexRoute = IndexRouteImport.update({
 const ShellSettingsRoute = ShellSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellReportsRoute = ShellReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellProfileRoute = ShellProfileRouteImport.update({
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
+  '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof ShellGalleryRoute
   '/history': typeof ShellHistoryRoute
   '/profile': typeof ShellProfileRoute
+  '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/_shell/gallery': typeof ShellGalleryRoute
   '/_shell/history': typeof ShellHistoryRoute
   '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/reports': typeof ShellReportsRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/history'
     | '/profile'
+    | '/reports'
     | '/settings'
     | '/scan/email'
     | '/scan/qr'
@@ -297,6 +307,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/history'
     | '/profile'
+    | '/reports'
     | '/settings'
     | '/scan/email'
     | '/scan/qr'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/_shell/gallery'
     | '/_shell/history'
     | '/_shell/profile'
+    | '/_shell/reports'
     | '/_shell/settings'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
@@ -416,6 +428,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/reports': {
+      id: '/_shell/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ShellReportsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/profile': {
@@ -544,6 +563,7 @@ interface ShellRouteChildren {
   ShellGalleryRoute: typeof ShellGalleryRoute
   ShellHistoryRoute: typeof ShellHistoryRoute
   ShellProfileRoute: typeof ShellProfileRoute
+  ShellReportsRoute: typeof ShellReportsRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
@@ -564,6 +584,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellGalleryRoute: ShellGalleryRoute,
   ShellHistoryRoute: ShellHistoryRoute,
   ShellProfileRoute: ShellProfileRoute,
+  ShellReportsRoute: ShellReportsRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
