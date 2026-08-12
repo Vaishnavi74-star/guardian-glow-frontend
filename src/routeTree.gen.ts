@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellThreatIntelRouteImport } from './routes/_shell.threat-intel'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
@@ -80,6 +81,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ShellThreatIntelRoute = ShellThreatIntelRouteImport.update({
+  id: '/threat-intel',
+  path: '/threat-intel',
+  getParentRoute: () => ShellRoute,
 } as any)
 const ShellSettingsRoute = ShellSettingsRouteImport.update({
   id: '/settings',
@@ -193,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ShellProfileRoute
   '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -221,6 +228,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ShellProfileRoute
   '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
   '/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/_shell/profile': typeof ShellProfileRoute
   '/_shell/reports': typeof ShellReportsRoute
   '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/threat-intel': typeof ShellThreatIntelRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
   '/_shell/scan/screenshot': typeof ShellScanScreenshotRoute
@@ -281,6 +290,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reports'
     | '/settings'
+    | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -309,6 +319,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reports'
     | '/settings'
+    | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
     | '/scan/screenshot'
@@ -338,6 +349,7 @@ export interface FileRouteTypes {
     | '/_shell/profile'
     | '/_shell/reports'
     | '/_shell/settings'
+    | '/_shell/threat-intel'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
     | '/_shell/scan/screenshot'
@@ -422,6 +434,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_shell/threat-intel': {
+      id: '/_shell/threat-intel'
+      path: '/threat-intel'
+      fullPath: '/threat-intel'
+      preLoaderRoute: typeof ShellThreatIntelRouteImport
+      parentRoute: typeof ShellRoute
     }
     '/_shell/settings': {
       id: '/_shell/settings'
@@ -565,6 +584,7 @@ interface ShellRouteChildren {
   ShellProfileRoute: typeof ShellProfileRoute
   ShellReportsRoute: typeof ShellReportsRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellThreatIntelRoute: typeof ShellThreatIntelRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
   ShellScanScreenshotRoute: typeof ShellScanScreenshotRoute
@@ -586,6 +606,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellProfileRoute: ShellProfileRoute,
   ShellReportsRoute: ShellReportsRoute,
   ShellSettingsRoute: ShellSettingsRoute,
+  ShellThreatIntelRoute: ShellThreatIntelRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
   ShellScanScreenshotRoute: ShellScanScreenshotRoute,
