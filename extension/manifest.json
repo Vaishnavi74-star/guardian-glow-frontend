@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "ScamShield — Phishing & Scam Protection",
+  "version": "2.4.1",
+  "description": "Real-time phishing, scam and malicious link protection. Check any link before you click it.",
+  "permissions": ["activeTab", "storage", "tabs", "contextMenus"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": { "48": "icon.png", "128": "icon.png" }
+}

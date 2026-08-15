@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyOtpRouteImport } from './routes/verify-otp'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -19,6 +20,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellThreatIntelRouteImport } from './routes/_shell.threat-intel'
+import { Route as ShellTeamRouteImport } from './routes/_shell.team'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
@@ -53,6 +55,11 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -85,6 +92,11 @@ const IndexRoute = IndexRouteImport.update({
 const ShellThreatIntelRoute = ShellThreatIntelRouteImport.update({
   id: '/threat-intel',
   path: '/threat-intel',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTeamRoute = ShellTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellSettingsRoute = ShellSettingsRouteImport.update({
@@ -184,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
@@ -199,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ShellProfileRoute
   '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/team': typeof ShellTeamRoute
   '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
@@ -213,6 +227,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
@@ -228,6 +243,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ShellProfileRoute
   '/reports': typeof ShellReportsRoute
   '/settings': typeof ShellSettingsRoute
+  '/team': typeof ShellTeamRoute
   '/threat-intel': typeof ShellThreatIntelRoute
   '/scan/email': typeof ShellScanEmailRoute
   '/scan/qr': typeof ShellScanQrRoute
@@ -244,6 +260,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-otp': typeof VerifyOtpRoute
@@ -259,6 +276,7 @@ export interface FileRoutesById {
   '/_shell/profile': typeof ShellProfileRoute
   '/_shell/reports': typeof ShellReportsRoute
   '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/team': typeof ShellTeamRoute
   '/_shell/threat-intel': typeof ShellThreatIntelRoute
   '/_shell/scan/email': typeof ShellScanEmailRoute
   '/_shell/scan/qr': typeof ShellScanQrRoute
@@ -275,6 +293,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forgot-password'
     | '/login'
+    | '/pricing'
     | '/register'
     | '/reset-password'
     | '/verify-otp'
@@ -290,6 +309,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reports'
     | '/settings'
+    | '/team'
     | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
@@ -304,6 +324,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forgot-password'
     | '/login'
+    | '/pricing'
     | '/register'
     | '/reset-password'
     | '/verify-otp'
@@ -319,6 +340,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reports'
     | '/settings'
+    | '/team'
     | '/threat-intel'
     | '/scan/email'
     | '/scan/qr'
@@ -334,6 +356,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forgot-password'
     | '/login'
+    | '/pricing'
     | '/register'
     | '/reset-password'
     | '/verify-otp'
@@ -349,6 +372,7 @@ export interface FileRouteTypes {
     | '/_shell/profile'
     | '/_shell/reports'
     | '/_shell/settings'
+    | '/_shell/team'
     | '/_shell/threat-intel'
     | '/_shell/scan/email'
     | '/_shell/scan/qr'
@@ -365,6 +389,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyOtpRoute: typeof VerifyOtpRoute
@@ -391,6 +416,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -440,6 +472,13 @@ declare module '@tanstack/react-router' {
       path: '/threat-intel'
       fullPath: '/threat-intel'
       preLoaderRoute: typeof ShellThreatIntelRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/team': {
+      id: '/_shell/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof ShellTeamRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/settings': {
@@ -584,6 +623,7 @@ interface ShellRouteChildren {
   ShellProfileRoute: typeof ShellProfileRoute
   ShellReportsRoute: typeof ShellReportsRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellTeamRoute: typeof ShellTeamRoute
   ShellThreatIntelRoute: typeof ShellThreatIntelRoute
   ShellScanEmailRoute: typeof ShellScanEmailRoute
   ShellScanQrRoute: typeof ShellScanQrRoute
@@ -606,6 +646,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellProfileRoute: ShellProfileRoute,
   ShellReportsRoute: ShellReportsRoute,
   ShellSettingsRoute: ShellSettingsRoute,
+  ShellTeamRoute: ShellTeamRoute,
   ShellThreatIntelRoute: ShellThreatIntelRoute,
   ShellScanEmailRoute: ShellScanEmailRoute,
   ShellScanQrRoute: ShellScanQrRoute,
@@ -624,6 +665,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   VerifyOtpRoute: VerifyOtpRoute,

@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   Puzzle, Chrome, Download, Shield, Zap, MousePointerClick, Lock, CheckCircle2, Star,
+  FolderOpen, ToggleRight, Package, Loader2,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { GlassCard } from "@/components/scam/GlassCard";
 import { Button } from "@/components/ui/button";
 
@@ -32,7 +35,35 @@ const BROWSERS = [
   { name: "Brave",   users: "170K",   installed: false },
 ];
 
+const STEPS = [
+  { icon: Download,    title: "Download the ZIP",      body: "Grab scamshield-extension.zip and unzip it anywhere on your computer." },
+  { icon: Chrome,      title: "Open chrome://extensions", body: "Works in Chrome, Edge, Brave, Arc and Opera — paste the address in a new tab." },
+  { icon: ToggleRight, title: "Enable Developer mode",  body: "Flip the Developer mode toggle in the top-right corner of the page." },
+  { icon: FolderOpen,  title: "Load unpacked",          body: "Click “Load unpacked” and select the unzipped scamshield folder. Done." },
+];
+
 function ExtensionPage() {
+  const [busy, setBusy] = useState(false);
+
+  const downloadExtension = () => {
+    setBusy(true);
+    fetch("/scamshield-extension.zip")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+        return res.blob();
+      })
+      .then((blob) => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "scamshield-extension.zip";
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast.success("Extension downloaded", { description: "Unzip it, then load it via chrome://extensions." });
+      })
+      .catch((err: Error) => toast.error(err.message))
+      .finally(() => setBusy(false));
+  };
+
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
@@ -48,11 +79,16 @@ function ExtensionPage() {
             downloads — without slowing you down.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button className="gradient-primary px-6 text-white glow-primary">
-              <Chrome className="mr-2 h-4 w-4" /> Add to Chrome — Free
+            <Button onClick={downloadExtension} disabled={busy} className="gradient-primary px-6 text-white glow-primary">
+              {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2 h-4 w-4" />}
+              {busy ? "Preparing…" : "Download for Chrome — Free"}
             </Button>
-            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10">
-              <Download className="mr-2 h-4 w-4" /> Other browsers
+            <Button
+              variant="outline"
+              onClick={() => document.getElementById("install-steps")?.scrollIntoView({ behavior: "smooth" })}
+              className="border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              <Package className="mr-2 h-4 w-4" /> Install instructions
             </Button>
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
@@ -124,6 +160,39 @@ function ExtensionPage() {
           ))}
         </div>
       </div>
+
+      <GlassCard id="install-steps" strong>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-black tracking-tight">Install in under a minute</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manifest V3 · works in Chrome, Edge, Brave, Arc and Opera · no account needed.
+            </p>
+          </div>
+          <Button onClick={downloadExtension} disabled={busy} className="gradient-primary text-white">
+            <Download className="mr-2 h-4 w-4" /> Download ZIP
+          </Button>
+        </div>
+        <ol className="mt-5 grid gap-3 sm:grid-cols-2">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl gradient-primary text-sm font-bold text-white">
+                {i + 1}
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 font-semibold">
+                  <s.icon className="h-4 w-4 text-accent" /> {s.title}
+                </div>
+                <p className="mt-0.5 text-sm text-muted-foreground">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-xs text-muted-foreground">
+          The popup checks the active tab, the context menu scans any link or selected text, and dangerous
+          pages get a full-screen warning overlay. All heuristics run locally — nothing leaves your browser.
+        </p>
+      </GlassCard>
 
       <GlassCard>
         <h2 className="font-bold">Available on</h2>
