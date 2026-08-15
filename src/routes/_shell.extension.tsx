@@ -161,6 +161,39 @@ function ExtensionPage() {
         </div>
       </div>
 
+      <GlassCard id="install-steps" strong>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-black tracking-tight">Install in under a minute</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manifest V3 · works in Chrome, Edge, Brave, Arc and Opera · no account needed.
+            </p>
+          </div>
+          <Button onClick={downloadExtension} disabled={busy} className="gradient-primary text-white">
+            <Download className="mr-2 h-4 w-4" /> Download ZIP
+          </Button>
+        </div>
+        <ol className="mt-5 grid gap-3 sm:grid-cols-2">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl gradient-primary text-sm font-bold text-white">
+                {i + 1}
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 font-semibold">
+                  <s.icon className="h-4 w-4 text-accent" /> {s.title}
+                </div>
+                <p className="mt-0.5 text-sm text-muted-foreground">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-xs text-muted-foreground">
+          The popup checks the active tab, the context menu scans any link or selected text, and dangerous
+          pages get a full-screen warning overlay. All heuristics run locally — nothing leaves your browser.
+        </p>
+      </GlassCard>
+
       <GlassCard>
         <h2 className="font-bold">Available on</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
