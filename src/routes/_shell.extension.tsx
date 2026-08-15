@@ -79,11 +79,16 @@ function ExtensionPage() {
             downloads — without slowing you down.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button className="gradient-primary px-6 text-white glow-primary">
-              <Chrome className="mr-2 h-4 w-4" /> Add to Chrome — Free
+            <Button onClick={downloadExtension} disabled={busy} className="gradient-primary px-6 text-white glow-primary">
+              {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2 h-4 w-4" />}
+              {busy ? "Preparing…" : "Download for Chrome — Free"}
             </Button>
-            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10">
-              <Download className="mr-2 h-4 w-4" /> Other browsers
+            <Button
+              variant="outline"
+              onClick={() => document.getElementById("install-steps")?.scrollIntoView({ behavior: "smooth" })}
+              className="border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              <Package className="mr-2 h-4 w-4" /> Install instructions
             </Button>
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
