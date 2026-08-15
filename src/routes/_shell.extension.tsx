@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   Puzzle, Chrome, Download, Shield, Zap, MousePointerClick, Lock, CheckCircle2, Star,
+  FolderOpen, ToggleRight, Package, Loader2,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { GlassCard } from "@/components/scam/GlassCard";
 import { Button } from "@/components/ui/button";
 
