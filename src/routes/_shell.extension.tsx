@@ -35,7 +35,35 @@ const BROWSERS = [
   { name: "Brave",   users: "170K",   installed: false },
 ];
 
+const STEPS = [
+  { icon: Download,    title: "Download the ZIP",      body: "Grab scamshield-extension.zip and unzip it anywhere on your computer." },
+  { icon: Chrome,      title: "Open chrome://extensions", body: "Works in Chrome, Edge, Brave, Arc and Opera — paste the address in a new tab." },
+  { icon: ToggleRight, title: "Enable Developer mode",  body: "Flip the Developer mode toggle in the top-right corner of the page." },
+  { icon: FolderOpen,  title: "Load unpacked",          body: "Click “Load unpacked” and select the unzipped scamshield folder. Done." },
+];
+
 function ExtensionPage() {
+  const [busy, setBusy] = useState(false);
+
+  const downloadExtension = () => {
+    setBusy(true);
+    fetch("/scamshield-extension.zip")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+        return res.blob();
+      })
+      .then((blob) => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "scamshield-extension.zip";
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast.success("Extension downloaded", { description: "Unzip it, then load it via chrome://extensions." });
+      })
+      .catch((err: Error) => toast.error(err.message))
+      .finally(() => setBusy(false));
+  };
+
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
